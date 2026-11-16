@@ -1,5 +1,7 @@
 # Internet Speed Test
 
+Скрипт для теста скорости интернета.
+
 A small command-line utility that downloads a resource 10 times sequentially and
 reports the average request time, total amount of downloaded data, and average
 download speed.
