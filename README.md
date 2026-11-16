@@ -1,34 +1,33 @@
-# Internet Speed Test
+# Измерение скорости скачивания
 
-Скрипт для теста скорости интернета.
+Консольный скрипт, который выполняет 10 последовательных запросов к указанному
+адресу и выводит среднее время запроса, общий объём полученных данных и среднюю
+скорость скачивания. Ответ читается в потоке: скрипт считает размер блоков,
+не сохраняет файл на диск и не собирает его целиком в памяти.
 
-A small command-line utility that downloads a resource 10 times sequentially and
-reports the average request time, total amount of downloaded data, and average
-download speed.
+## Требования
 
-## Requirements
+- Node.js 20 или новее
+- Сторонние зависимости не требуются
 
-- Node.js 20 or newer
-- No third-party dependencies
+## Запуск
 
-## Usage
-
-Pass an HTTP or HTTPS URL to a reasonably large file:
+Передайте HTTP- или HTTPS-адрес достаточно большого файла:
 
 ```bash
 node speed-test.js https://example.com/large-image.jpg
 ```
 
-You can also use the npm script (the `--` passes the URL to the script):
+Также можно запустить скрипт через npm (`--` передаёт адрес самому скрипту):
 
 ```bash
 npm start -- https://example.com/large-image.jpg
 ```
 
-The requests are made one at a time. Each response body is read completely before
-the next request begins. A request times out after 30 seconds.
+Запросы выполняются строго по одному. Каждый ответ читается полностью до начала
+следующего запроса. Таймаут одного запроса — 30 секунд.
 
-Example output:
+Пример вывода (сообщения программы выводятся на английском):
 
 ```text
 Downloading https://example.com/large-image.jpg 10 times sequentially...
@@ -41,28 +40,32 @@ Downloaded: 47.31 MiB
 Average download speed: 46.32 Mbit/s
 ```
 
-## Units and calculation
+## Единицы измерения и расчёт
 
-- Request time is displayed in seconds (`s`).
-- Total data is displayed in mebibytes (`MiB`), where 1 MiB = 1,048,576 bytes.
-- Download speed is displayed in megabits per second (`Mbit/s`), where
-  1 Mbit = 1,000,000 bits.
+- Время запроса выводится в секундах (`s`).
+- Общий объём данных выводится в мебибайтах (`MiB`): 1 MiB = 1 048 576 байт.
+- Скорость скачивания выводится в мегабитах в секунду (`Mbit/s`):
+  1 Mbit = 1 000 000 бит.
 
-The average speed is calculated over all 10 requests:
+Средняя скорость рассчитывается по результатам всех 10 запросов:
 
 ```text
-speed = total downloaded bytes * 8 / total request time / 1,000,000
+скорость = общий объём в байтах × 8 / суммарное время в секундах / 1 000 000
 ```
 
-The result measures transfer speed between this computer and the specified
-server. It is not a universal measurement of the internet connection: server
-performance, latency, caching, and network conditions can affect it.
+Среднее время запроса — это суммарное время всех запросов, делённое на 10.
+Время каждого запроса включает ожидание ответа и полное чтение его тела.
 
-## Tests
+Результат характеризует скорость передачи данных между вашим компьютером и
+указанным сервером. На него влияют производительность сервера, задержки,
+кеширование и состояние сети, поэтому он не является универсальной оценкой
+скорости интернет-соединения.
+
+## Тесты
 
 ```bash
 npm test
 ```
 
-The tests verify URL validation, sequential execution, byte totals, calculations,
-and HTTP error handling.
+Тесты проверяют допустимые адреса, последовательность запросов, подсчёт объёма
+данных и обработку HTTP-ошибок.
