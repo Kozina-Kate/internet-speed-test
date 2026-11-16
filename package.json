@@ -1,0 +1,14 @@
+{
+  "name": "internet-speed-test",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A dependency-free CLI that measures download speed to a given URL",
+  "scripts": {
+    "start": "node speed-test.js",
+    "test": "node --test test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
